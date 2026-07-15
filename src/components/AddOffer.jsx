@@ -57,8 +57,6 @@ const AddOffer = () => {
 
   return (
     <div>
-      {/* <NavBar /> */}
-
       <NavigationBar />
 
       <div className="container mt-4">
@@ -169,7 +167,6 @@ const AddOffer = () => {
 
               <div className="col-md-6">
                 <label className="form-label">Status</label>
-
                 <select
                   className="form-select"
                   name="status"
@@ -182,16 +179,18 @@ const AddOffer = () => {
                 </select>
               </div>
 
-              <div className="col-md-12">
+              {/* Centered Submit Button Row */}
+              <div className="col-md-12 d-flex justify-content-center mt-4">
                 <button
-                  className="btn btn-success"
+                  className="btn btn-success px-5"
                   onClick={readValue}
                 >
                   Add Offer
                 </button>
               </div>
 
-              <div className="col-md-12">
+              {/* Centered Feedback Notification */}
+              <div className="col-md-12 text-center">
                 <h5 style={{ color: messageColor }}>
                   {message}
                 </h5>

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { 
   Users, 
   Utensils, 
@@ -15,13 +16,40 @@ const Home = () => {
   const [hoveredBtn, setHoveredBtn] = useState(null);
   const [hoveredDash, setHoveredDash] = useState(false);
 
+  // Live Metrics Aggregation State
+  const [metrics, setMetrics] = useState({
+    registeredStudents: 0,
+    menuProducts: 0,
+    activeOffers: 0
+  });
+
+  // Pull operational stats to display on cards automatically
+  useEffect(() => {
+    axios.post("http://localhost:3000/dashboard")
+      .then((res) => {
+        if (res.data) setMetrics(res.data);
+      })
+      .catch((err) => console.error("Metrics sync failure:", err));
+  }, []);
+
   const styles = {
     layout: {
       minHeight: "100vh",
       backgroundColor: "#f8fafc",
       color: "#0f172a",
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      position: "relative"
+      position: "relative",
+      overflow: "hidden"
+    },
+    ambientGlow: {
+      position: "absolute",
+      top: "-10%",
+      left: "20%",
+      width: "600px",
+      height: "400px",
+      background: "radial-gradient(circle, rgba(2,132,199,0.03) 0%, rgba(255,255,255,0) 70%)",
+      pointerEvents: "none",
+      zIndex: 0
     },
     topBarDecoration: {
       position: "absolute",
@@ -29,13 +57,16 @@ const Home = () => {
       left: 0,
       right: 0,
       height: "4px",
-      background: "linear-gradient(90deg, #0284c7 0%, #0f172a 100%)"
+      background: "linear-gradient(90deg, #0284c7 0%, #0f172a 100%)",
+      zIndex: 10
     },
     wrapper: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "6rem 2rem 4rem 2rem",
-      boxSizing: "border-box"
+      boxSizing: "border-box",
+      position: "relative",
+      zIndex: 1
     },
     headerSec: {
       textAlign: "center",
@@ -64,40 +95,57 @@ const Home = () => {
       backgroundColor: "#10b981"
     },
     mainTitle: {
-      fontSize: "2.5rem",
+      fontSize: "2.75rem",
       fontWeight: "800",
       letterSpacing: "-0.03em",
       color: "#0f172a",
-      margin: 0
+      margin: 0,
+      background: "linear-gradient(180deg, #0f172a 0%, #334155 100%)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent"
     },
     grid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
       gap: "2rem",
       marginBottom: "4.5rem"
     },
     getCardLayout: (id) => ({
       backgroundColor: "#ffffff",
-      borderRadius: "14px",
+      borderRadius: "16px",
       border: `1px solid ${hoveredCard === id ? "#cbd5e1" : "#e2e8f0"}`,
-      padding: "2.25rem 2rem",
+      padding: "2.5rem 2.25rem",
       boxSizing: "border-box",
-      transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
       boxShadow: hoveredCard === id 
-        ? "0 20px 25px -5px rgba(15, 23, 42, 0.05)" 
-        : "0 1px 3px rgba(15, 23, 42, 0.02)",
-      transform: hoveredCard === id ? "translateY(-2px)" : "translateY(0)"
+        ? "0 30px 40px -15px rgba(15, 23, 42, 0.06)" 
+        : "0 1px 3px rgba(15, 23, 42, 0.01)",
+      transform: hoveredCard === id ? "translateY(-4px)" : "translateY(0)"
     }),
+    cardMeta: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: "1.75rem"
+    },
     iconFrame: {
       width: "48px",
       height: "48px",
-      borderRadius: "10px",
+      borderRadius: "12px",
       backgroundColor: "#f1f5f9",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: "#334155",
-      marginBottom: "1.25rem"
+      color: "#334155"
+    },
+    liveCounter: {
+      fontSize: "0.75rem",
+      fontWeight: "700",
+      color: "#475569",
+      backgroundColor: "#f8fafc",
+      padding: "0.25rem 0.6rem",
+      borderRadius: "6px",
+      border: "1px solid #e2e8f0"
     },
     cardHeading: {
       fontSize: "1.35rem",
@@ -118,7 +166,7 @@ const Home = () => {
       gap: "0.5rem",
       width: "100%",
       boxSizing: "border-box",
-      padding: "0.75rem 1.25rem",
+      padding: "0.8rem 1.25rem",
       borderRadius: "8px",
       backgroundColor: hoveredBtn === btnKey ? "#1e293b" : "#0f172a",
       color: "#ffffff",
@@ -135,7 +183,7 @@ const Home = () => {
       justifyContent: "center",
       width: "100%",
       boxSizing: "border-box",
-      padding: "0.75rem 1.25rem",
+      padding: "0.8rem 1.25rem",
       borderRadius: "8px",
       border: "1px solid #e2e8f0",
       backgroundColor: hoveredBtn === btnKey ? "#f8fafc" : "#ffffff",
@@ -154,15 +202,15 @@ const Home = () => {
       display: "inline-flex",
       alignItems: "center",
       gap: "0.6rem",
-      padding: "0.85rem 2rem",
-      borderRadius: "10px",
+      padding: "0.95rem 2.25rem",
+      borderRadius: "12px",
       backgroundColor: "#ffffff",
       border: `1px solid ${hoveredDash ? "#0f172a" : "#cbd5e1"}`,
       color: "#0f172a",
       fontWeight: "600",
       fontSize: "0.9rem",
       textDecoration: "none",
-      boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
       transition: "all 0.2s ease",
       cursor: "pointer"
     }
@@ -171,20 +219,14 @@ const Home = () => {
   return (
     <div style={styles.layout}>
       <div style={styles.topBarDecoration} />
+      <div style={styles.ambientGlow} />
+      
       <NavigationBar />
 
       <div style={styles.wrapper}>
         
-        {/* Minimal High-End Header */}
-        <div style={styles.headerSec}>
-          <div style={styles.systemBadge}>
-            <span style={styles.badgePulse} />
-            Control Core
-          </div>
-          <h1 style={styles.mainTitle}>Campus Cafeteria Management</h1>
-        </div>
-
-        {/* Presentation-Focused Module Grid */}
+       
+        {/* Dynamic Presentation Module Grid */}
         <div style={styles.grid}>
           
           {/* Module: Student Base */}
@@ -193,8 +235,13 @@ const Home = () => {
             onMouseEnter={() => setHoveredCard("students")}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <div style={styles.iconFrame}>
-              <Users size={22} strokeWidth={2} />
+            <div style={styles.cardMeta}>
+              <div style={styles.iconFrame}>
+                <Users size={22} strokeWidth={2} />
+              </div>
+              <div style={styles.liveCounter}>
+                {metrics.registeredStudents} Active
+              </div>
             </div>
             <h3 style={styles.cardHeading}>Student Directory</h3>
             <div style={styles.actionContainer}>
@@ -204,7 +251,7 @@ const Home = () => {
                 onMouseEnter={() => setHoveredBtn("std-add")}
                 onMouseLeave={() => setHoveredBtn(null)}
               >
-                <Plus size={16} strokeWidth={2.5} /> Add Profile
+                <Plus size={16} strokeWidth={2.5} /> Add Data
               </Link>
               <Link 
                 to="/students-view" 
@@ -212,7 +259,7 @@ const Home = () => {
                 onMouseEnter={() => setHoveredBtn("std-view")}
                 onMouseLeave={() => setHoveredBtn(null)}
               >
-                View Directory
+                View Data
               </Link>
             </div>
           </div>
@@ -223,8 +270,13 @@ const Home = () => {
             onMouseEnter={() => setHoveredCard("menu")}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <div style={styles.iconFrame}>
-              <Utensils size={22} strokeWidth={2} />
+            <div style={styles.cardMeta}>
+              <div style={styles.iconFrame}>
+                <Utensils size={22} strokeWidth={2} />
+              </div>
+              <div style={styles.liveCounter}>
+                {metrics.menuProducts} Items
+              </div>
             </div>
             <h3 style={styles.cardHeading}>Menu Inventory</h3>
             <div style={styles.actionContainer}>
@@ -242,7 +294,7 @@ const Home = () => {
                 onMouseEnter={() => setHoveredBtn("mn-view")}
                 onMouseLeave={() => setHoveredBtn(null)}
               >
-                View Catalog
+                View Items
               </Link>
             </div>
           </div>
@@ -253,10 +305,15 @@ const Home = () => {
             onMouseEnter={() => setHoveredCard("offers")}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <div style={styles.iconFrame}>
-              <BadgePercent size={22} strokeWidth={2} />
+            <div style={styles.cardMeta}>
+              <div style={styles.iconFrame}>
+                <BadgePercent size={22} strokeWidth={2} />
+              </div>
+              <div style={styles.liveCounter}>
+                {metrics.activeOffers} Live
+              </div>
             </div>
-            <h3 style={styles.cardHeading}>Active Campaigns</h3>
+            <h3 style={styles.cardHeading}>Active Offers</h3>
             <div style={styles.actionContainer}>
               <Link 
                 to="/offers-add" 
@@ -279,7 +336,7 @@ const Home = () => {
 
         </div>
 
-        {/* Master Redirection Terminal */}
+        {/* Master Analytics Redirection Console */}
         <div style={styles.footerNavSection}>
           <Link 
             to="/dashboard" 
