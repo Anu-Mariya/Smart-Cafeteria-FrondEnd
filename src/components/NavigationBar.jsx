@@ -12,9 +12,16 @@ const NavigationBar = () => {
     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div className="navbar-nav">
         <a className="nav-link active" aria-current="page" href="/">Home</a>
+<<<<<<< HEAD
+=======
+        <a className="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
+        <a className="nav-link active" aria-current="page" href="/add-stud">Add Students</a>
+>>>>>>> 24c11a7 (Router added)
         <a className="nav-link" href="/view-stud">View All Students</a>
-              <a className="nav-link" href="/add-item">Add Menu Items</a>
+        <a className="nav-link" href="/add-item">Add Menu Items</a>
         <a className="nav-link" href="/view-item">View Menu Items</a>
+        <a className="nav-link" href="/add-offer">Add Offer</a>
+        <a className="nav-link" href="/view-offer">View Offer</a>
       </div>
     </div>
   </div>
