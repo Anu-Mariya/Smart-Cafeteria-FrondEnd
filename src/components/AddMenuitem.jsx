@@ -226,16 +226,17 @@ const AddMenuitem = () => {
                                 />
                             </div>
 
-                            <div className="col-md-12">
+                            {/* Centered Submit Button Container Row */}
+                            <div className="col-md-12 d-flex justify-content-center mt-4">
                                 <button
-                                    className="btn btn-success"
+                                    className="btn btn-success px-5"
                                     onClick={readValue}
                                 >
                                     Add Menu Item
                                 </button>
                             </div>
 
-                            <div className="col-md-12">
+                            <div className="col-md-12 text-center">
                                 <h5 style={{ color: messageColor }}>
                                     {message}
                                 </h5>
@@ -253,4 +254,4 @@ const AddMenuitem = () => {
     )
 }
 
-export default AddMenuitem
+export default AddMenuitem;

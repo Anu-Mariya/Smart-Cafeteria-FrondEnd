@@ -172,11 +172,13 @@ const AddStudent = () => {
                 />
               </div>
 
-              <div className="col col-12">
-                <button className="btn btn-primary" onClick={readValue}>
+              {/* Centered Submit Button Row */}
+              <div className="col col-12 d-flex justify-content-center mt-4">
+                <button className="btn btn-primary px-5" onClick={readValue}>
                   Submit
                 </button>
               </div>
+
             </div>
           </div>
         </div>
