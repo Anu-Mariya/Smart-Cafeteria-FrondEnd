@@ -12,18 +12,12 @@ import {
 import NavigationBar from "./NavigationBar";
 
 const Home = () => {
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [hoveredBtn, setHoveredBtn] = useState(null);
-  const [hoveredDash, setHoveredDash] = useState(false);
-
-  // Live Metrics Aggregation State
   const [metrics, setMetrics] = useState({
     registeredStudents: 0,
     menuProducts: 0,
     activeOffers: 0
   });
 
-  // Pull operational stats to display on cards automatically
   useEffect(() => {
     axios.post("http://localhost:3000/dashboard")
       .then((res) => {
@@ -32,327 +26,223 @@ const Home = () => {
       .catch((err) => console.error("Metrics sync failure:", err));
   }, []);
 
-  const styles = {
-    layout: {
-      minHeight: "100vh",
-      backgroundColor: "#f8fafc",
-      color: "#0f172a",
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      position: "relative",
-      overflow: "hidden"
+  const modules = [
+    {
+      id: "students",
+      title: "Student Directory",
+      count: metrics.registeredStudents,
+      unit: "Active",
+      icon: <Users size={20} style={{ color: "#475569" }} />,
+      addPath: "/students-add",
+      viewPath: "/students-view",
+      addText: "Add Student",
+      viewText: "View Directory"
     },
-    ambientGlow: {
-      position: "absolute",
-      top: "-10%",
-      left: "20%",
-      width: "600px",
-      height: "400px",
-      background: "radial-gradient(circle, rgba(2,132,199,0.03) 0%, rgba(255,255,255,0) 70%)",
-      pointerEvents: "none",
-      zIndex: 0
+    {
+      id: "menu",
+      title: "Menu Inventory",
+      count: metrics.menuProducts,
+      unit: "Items",
+      icon: <Utensils size={20} style={{ color: "#475569" }} />,
+      addPath: "/menu-add",
+      viewPath: "/menu-view",
+      addText: "Add Item",
+      viewText: "View Inventory"
     },
-    topBarDecoration: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      height: "4px",
-      background: "linear-gradient(90deg, #0284c7 0%, #0f172a 100%)",
-      zIndex: 10
-    },
-    wrapper: {
-      maxWidth: "1200px",
-      margin: "0 auto",
-      padding: "6rem 2rem 4rem 2rem",
-      boxSizing: "border-box",
-      position: "relative",
-      zIndex: 1
-    },
-    headerSec: {
-      textAlign: "center",
-      marginBottom: "4.5rem"
-    },
-    systemBadge: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "0.5rem",
-      padding: "0.35rem 0.75rem",
-      borderRadius: "6px",
-      backgroundColor: "#ffffff",
-      border: "1px solid #e2e8f0",
-      color: "#64748b",
-      fontSize: "0.75rem",
-      fontWeight: "600",
-      letterSpacing: "0.05em",
-      textTransform: "uppercase",
-      marginBottom: "1rem",
-      boxShadow: "0 1px 2px rgba(0,0,0,0.02)"
-    },
-    badgePulse: {
-      width: "6px",
-      height: "6px",
-      borderRadius: "50%",
-      backgroundColor: "#10b981"
-    },
-    mainTitle: {
-      fontSize: "2.75rem",
-      fontWeight: "800",
-      letterSpacing: "-0.03em",
-      color: "#0f172a",
-      margin: 0,
-      background: "linear-gradient(180deg, #0f172a 0%, #334155 100%)",
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent"
-    },
-    grid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-      gap: "2rem",
-      marginBottom: "4.5rem"
-    },
-    getCardLayout: (id) => ({
-      backgroundColor: "#ffffff",
-      borderRadius: "16px",
-      border: `1px solid ${hoveredCard === id ? "#cbd5e1" : "#e2e8f0"}`,
-      padding: "2.5rem 2.25rem",
-      boxSizing: "border-box",
-      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-      boxShadow: hoveredCard === id 
-        ? "0 30px 40px -15px rgba(15, 23, 42, 0.06)" 
-        : "0 1px 3px rgba(15, 23, 42, 0.01)",
-      transform: hoveredCard === id ? "translateY(-4px)" : "translateY(0)"
-    }),
-    cardMeta: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      marginBottom: "1.75rem"
-    },
-    iconFrame: {
-      width: "48px",
-      height: "48px",
-      borderRadius: "12px",
-      backgroundColor: "#f1f5f9",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "#334155"
-    },
-    liveCounter: {
-      fontSize: "0.75rem",
-      fontWeight: "700",
-      color: "#475569",
-      backgroundColor: "#f8fafc",
-      padding: "0.25rem 0.6rem",
-      borderRadius: "6px",
-      border: "1px solid #e2e8f0"
-    },
-    cardHeading: {
-      fontSize: "1.35rem",
-      fontWeight: "700",
-      color: "#0f172a",
-      margin: "0 0 2rem 0",
-      letterSpacing: "-0.01em"
-    },
-    actionContainer: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "0.65rem"
-    },
-    getPrimaryAction: (btnKey) => ({
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "0.5rem",
-      width: "100%",
-      boxSizing: "border-box",
-      padding: "0.8rem 1.25rem",
-      borderRadius: "8px",
-      backgroundColor: hoveredBtn === btnKey ? "#1e293b" : "#0f172a",
-      color: "#ffffff",
-      fontWeight: "600",
-      fontSize: "0.875rem",
-      textDecoration: "none",
-      border: "none",
-      cursor: "pointer",
-      transition: "background-color 0.15s ease"
-    }),
-    getSecondaryAction: (btnKey) => ({
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "100%",
-      boxSizing: "border-box",
-      padding: "0.8rem 1.25rem",
-      borderRadius: "8px",
-      border: "1px solid #e2e8f0",
-      backgroundColor: hoveredBtn === btnKey ? "#f8fafc" : "#ffffff",
-      color: "#475569",
-      fontWeight: "500",
-      fontSize: "0.875rem",
-      textDecoration: "none",
-      cursor: "pointer",
-      transition: "all 0.15s ease"
-    }),
-    footerNavSection: {
-      display: "flex",
-      justifyContent: "center"
-    },
-    masterConsoleBtn: {
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "0.6rem",
-      padding: "0.95rem 2.25rem",
-      borderRadius: "12px",
-      backgroundColor: "#ffffff",
-      border: `1px solid ${hoveredDash ? "#0f172a" : "#cbd5e1"}`,
-      color: "#0f172a",
-      fontWeight: "600",
-      fontSize: "0.9rem",
-      textDecoration: "none",
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
-      transition: "all 0.2s ease",
-      cursor: "pointer"
+    {
+      id: "offers",
+      title: "Active Offers",
+      count: metrics.activeOffers,
+      unit: "Live",
+      icon: <BadgePercent size={20} style={{ color: "#475569" }} />,
+      addPath: "/offers-add",
+      viewPath: "/offers-view",
+      addText: "Create Offer",
+      viewText: "View Offers"
     }
-  };
+  ];
 
   return (
     <div style={styles.layout}>
-      <div style={styles.topBarDecoration} />
-      <div style={styles.ambientGlow} />
-      
       <NavigationBar />
 
-      <div style={styles.wrapper}>
-        
-       
-        {/* Dynamic Presentation Module Grid */}
-        <div style={styles.grid}>
-          
-          {/* Module: Student Base */}
-          <div 
-            style={styles.getCardLayout("students")}
-            onMouseEnter={() => setHoveredCard("students")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div style={styles.cardMeta}>
-              <div style={styles.iconFrame}>
-                <Users size={22} strokeWidth={2} />
-              </div>
-              <div style={styles.liveCounter}>
-                {metrics.registeredStudents} Active
-              </div>
-            </div>
-            <h3 style={styles.cardHeading}>Student Directory</h3>
-            <div style={styles.actionContainer}>
-              <Link 
-                to="/students-add" 
-                style={styles.getPrimaryAction("std-add")}
-                onMouseEnter={() => setHoveredBtn("std-add")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                <Plus size={16} strokeWidth={2.5} /> Add Data
-              </Link>
-              <Link 
-                to="/students-view" 
-                style={styles.getSecondaryAction("std-view")}
-                onMouseEnter={() => setHoveredBtn("std-view")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                View Data
-              </Link>
-            </div>
-          </div>
+      <main style={styles.container}>
+        {/* Header */}
+        <header style={styles.header}>
+          <h1 style={styles.title}>Administrative Console</h1>
+          <p style={styles.subtitle}>
+            Monitor infrastructure metrics and manage campus directory registries.
+          </p>
+        </header>
 
-          {/* Module: Menu Registry */}
-          <div 
-            style={styles.getCardLayout("menu")}
-            onMouseEnter={() => setHoveredCard("menu")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div style={styles.cardMeta}>
-              <div style={styles.iconFrame}>
-                <Utensils size={22} strokeWidth={2} />
+        {/* Grid System */}
+        <section style={styles.grid}>
+          {modules.map((mod) => (
+            <div key={mod.id} style={styles.card}>
+              <div style={styles.cardHeader}>
+                <div style={styles.iconWrapper}>{mod.icon}</div>
+                <span style={styles.badge}>
+                  {mod.count} {mod.unit}
+                </span>
               </div>
-              <div style={styles.liveCounter}>
-                {metrics.menuProducts} Items
-              </div>
-            </div>
-            <h3 style={styles.cardHeading}>Menu Inventory</h3>
-            <div style={styles.actionContainer}>
-              <Link 
-                to="/menu-add" 
-                style={styles.getPrimaryAction("mn-add")}
-                onMouseEnter={() => setHoveredBtn("mn-add")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                <Plus size={16} strokeWidth={2.5} /> Add Item
-              </Link>
-              <Link 
-                to="/menu-view" 
-                style={styles.getSecondaryAction("mn-view")}
-                onMouseEnter={() => setHoveredBtn("mn-view")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                View Items
-              </Link>
-            </div>
-          </div>
 
-          {/* Module: Marketing Expansion */}
-          <div 
-            style={styles.getCardLayout("offers")}
-            onMouseEnter={() => setHoveredCard("offers")}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <div style={styles.cardMeta}>
-              <div style={styles.iconFrame}>
-                <BadgePercent size={22} strokeWidth={2} />
-              </div>
-              <div style={styles.liveCounter}>
-                {metrics.activeOffers} Live
+              <h2 style={styles.cardTitle}>{mod.title}</h2>
+
+              <div style={styles.actionContainer}>
+                <Link to={mod.addPath} style={styles.primaryBtn}>
+                  <Plus size={16} /> {mod.addText}
+                </Link>
+                <Link to={mod.viewPath} style={styles.secondaryBtn}>
+                  {mod.viewText}
+                </Link>
               </div>
             </div>
-            <h3 style={styles.cardHeading}>Active Offers</h3>
-            <div style={styles.actionContainer}>
-              <Link 
-                to="/offers-add" 
-                style={styles.getPrimaryAction("of-add")}
-                onMouseEnter={() => setHoveredBtn("of-add")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                <Plus size={16} strokeWidth={2.5} /> Create Offer
-              </Link>
-              <Link 
-                to="/offers-view" 
-                style={styles.getSecondaryAction("of-view")}
-                onMouseEnter={() => setHoveredBtn("of-view")}
-                onMouseLeave={() => setHoveredBtn(null)}
-              >
-                View Offers
-              </Link>
-            </div>
-          </div>
+          ))}
+        </section>
 
-        </div>
-
-        {/* Master Analytics Redirection Console */}
-        <div style={styles.footerNavSection}>
-          <Link 
-            to="/dashboard" 
-            style={styles.masterConsoleBtn}
-            onMouseEnter={() => setHoveredDash(true)}
-            onMouseLeave={() => setHoveredDash(false)}
-          >
-            <LayoutDashboard size={16} style={{ color: "#334155" }} />
-            Open Analytics Dashboard
-            <ChevronRight size={16} style={{ transition: "transform 0.15s", transform: hoveredDash ? "translateX(4px)" : "none" }} />
+        {/* Footer Link */}
+        <footer style={styles.footer}>
+          <Link to="/dashboard" style={styles.consoleBtn}>
+            <LayoutDashboard size={16} style={{ color: "#64748b" }} />
+            Launch Master Analytics Dashboard
+            <ChevronRight size={16} style={{ color: "#94a3b8" }} />
           </Link>
-        </div>
-
-      </div>
+        </footer>
+      </main>
     </div>
   );
+};
+
+// Clean, predictable dashboard design tokens
+const styles = {
+  layout: {
+    minHeight: "100vh",
+    backgroundColor: "#f8fafc",
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    color: "#0f172a",
+    WebkitFontSmoothing: "antialiased"
+  },
+  container: {
+    maxWidth: "1140px",
+    margin: "0 auto",
+    padding: "4rem 1.5rem",
+    boxSizing: "border-box"
+  },
+  header: {
+    marginBottom: "3rem"
+  },
+  title: {
+    fontSize: "2rem",
+    fontWeight: "700",
+    letterSpacing: "-0.02em",
+    margin: "0 0 0.5rem 0",
+    color: "#0f172a"
+  },
+  subtitle: {
+    fontSize: "0.875rem",
+    color: "#64748b",
+    margin: 0
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gap: "1.5rem",
+    marginBottom: "3rem"
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    border: "1px solid #e2e8f0",
+    borderRadius: "12px",
+    padding: "1.5rem",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.05)"
+  },
+  cardHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "1.25rem"
+  },
+  iconWrapper: {
+    width: "40px",
+    height: "40px",
+    borderRadius: "8px",
+    backgroundColor: "#f1f5f9",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  badge: {
+    fontSize: "0.75rem",
+    fontWeight: "600",
+    backgroundColor: "#f8fafc",
+    border: "1px solid #e2e8f0",
+    color: "#475569",
+    padding: "0.25rem 0.625rem",
+    borderRadius: "6px"
+  },
+  cardTitle: {
+    fontSize: "1.125rem",
+    fontWeight: "600",
+    color: "#1e293b",
+    margin: "0 0 2rem 0"
+  },
+  actionContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+    marginTop: "auto"
+  },
+  primaryBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.375rem",
+    backgroundColor: "#0f172a",
+    color: "#ffffff",
+    fontSize: "0.875rem",
+    fontWeight: "500",
+    textDecoration: "none",
+    padding: "0.625rem 1rem",
+    borderRadius: "8px",
+    boxSizing: "border-box",
+    textAlign: "center"
+  },
+  secondaryBtn: {
+    display: "block",
+    backgroundColor: "#ffffff",
+    color: "#334155",
+    border: "1px solid #e2e8f0",
+    fontSize: "0.875rem",
+    fontWeight: "500",
+    textDecoration: "none",
+    padding: "0.625rem 1rem",
+    borderRadius: "8px",
+    boxSizing: "border-box",
+    textAlign: "center"
+  },
+  footer: {
+    display: "flex",
+    justifyContent: "center",
+    borderTop: "1px solid #e2e8f0",
+    paddingTop: "2rem"
+  },
+  consoleBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    backgroundColor: "#ffffff",
+    border: "1px solid #e2e8f0",
+    color: "#1e293b",
+    fontSize: "0.875rem",
+    fontWeight: "600",
+    textDecoration: "none",
+    padding: "0.75rem 1.25rem",
+    borderRadius: "10px",
+    boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)"
+  }
 };
 
 export default Home;
