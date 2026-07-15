@@ -4,6 +4,7 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 import AddStudent from './components/AddStudent'
+import ViewAllStudents from './components/ViewAllStudents'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
       <AddStudent />
+      <ViewAllStudents />
     </>
   )
 }
