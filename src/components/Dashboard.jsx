@@ -16,7 +16,7 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert("Failed to load dashboard");
+        alert("Failed to load Dashboard");
       });
   };
 
