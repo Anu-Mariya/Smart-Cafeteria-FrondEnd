@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import NavigationBar from "./NavigationBar";
 
 const Dashboard = () => {
   const [data, setData] = useState({
@@ -25,7 +26,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
+    <div>
+      <NavigationBar />
+      <div className="container mt-5">
       <h2 className="text-center mb-4">Campus Cafeteria Dashboard</h2>
 
       <div className="row">
@@ -49,6 +52,7 @@ const Dashboard = () => {
             <h2>{data.activeOffers}</h2>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

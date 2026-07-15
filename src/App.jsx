@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 
 import AddMenuitem from './components/AddMenuitem'
@@ -15,24 +15,22 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
-       
-
         <Routes>
           <Route path="/" element={<Home />} />
-<<<<<<< HEAD
-          <Route path="/add-student" element={<AddStudent />} />
-          <Route path="/view-students" element={<ViewAllStudents />} />
-=======
-          <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/add-stud" element={<AddStudent />} />
-          <Route path="/view-stud" element={<ViewAllStudents />} />
->>>>>>> 24c11a7 (Router added)
-          <Route path="/add-item" element={<AddMenuitem />} />
-          <Route path="/view-item" element={<ViewMenuitems />} />
-          <Route path="/add-offer" element={<AddOffer/>} />
-          <Route path="/view-offer" element={<ViewOffer />} />
-          
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/students-add" element={<AddStudent />} />
+          <Route path="/students-view" element={<ViewAllStudents />} />
+          <Route path="/menu-add" element={<AddMenuitem />} />
+          <Route path="/menu-view" element={<ViewMenuitems />} />
+          <Route path="/offers-add" element={<AddOffer />} />
+          <Route path="/offers-view" element={<ViewOffer />} />
+
+          <Route path="/add-stud" element={<Navigate to="/students-add" replace />} />
+          <Route path="/view-stud" element={<Navigate to="/students-view" replace />} />
+          <Route path="/add-item" element={<Navigate to="/menu-add" replace />} />
+          <Route path="/view-item" element={<Navigate to="/menu-view" replace />} />
+          <Route path="/add-offer" element={<Navigate to="/offers-add" replace />} />
+          <Route path="/view-offer" element={<Navigate to="/offers-view" replace />} />
         </Routes>
 
       </BrowserRouter>

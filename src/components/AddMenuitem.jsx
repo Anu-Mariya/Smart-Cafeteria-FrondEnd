@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 import NavigationBar from './NavigationBar'
 
 const AddMenuitem = () => {
+    const navigate = useNavigate()
 
     const [input, changeInput] = useState({
-        item_id: "",
-        item_name: "",
+        itemId: "",
+        itemName: "",
         category: "",
         description: "",
         price: "",
-        stock_quantity: "",
-        preparation_time: "",
-        availability_status: "",
-        image_url: "",
-        added_date: "",
-        popularity_tag: ""
+        quantityAvailable: "",
+        preparationTime: "",
+        availabilityStatus: "",
+        itemImageUrl: "",
+        addedDate: "",
+        popularityTag: ""
     })
 
     const [message, setMessage] = useState("")
@@ -31,24 +33,25 @@ const AddMenuitem = () => {
 
     const readValue = () => {
 
-        axios.post("http://localhost:4000/api/add-item", input)
+        axios.post("http://localhost:3000/menu-add", input)
             .then((response) => {
 
-                setMessage(response.data.message)
+                setMessage(response.data.status)
                 setMessageColor("green")
+                navigate("/menu-view")
 
                 changeInput({
-                    item_id: "",
-                    item_name: "",
+                    itemId: "",
+                    itemName: "",
                     category: "",
                     description: "",
                     price: "",
-                    stock_quantity: "",
-                    preparation_time: "",
-                    availability_status: "",
-                    image_url: "",
-                    added_date: "",
-                    popularity_tag: ""
+                    quantityAvailable: "",
+                    preparationTime: "",
+                    availabilityStatus: "",
+                    itemImageUrl: "",
+                    addedDate: "",
+                    popularityTag: ""
                 })
 
             })
@@ -88,8 +91,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="item_id"
-                                    value={input.item_id}
+                                    name="itemId"
+                                    value={input.itemId}
                                     onChange={inputHandler}
                                 />
                             </div>
@@ -99,8 +102,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="item_name"
-                                    value={input.item_name}
+                                    name="itemName"
+                                    value={input.itemName}
                                     onChange={inputHandler}
                                 />
                             </div>
@@ -150,8 +153,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="number"
                                     className="form-control"
-                                    name="stock_quantity"
-                                    value={input.stock_quantity}
+                                        name="quantityAvailable"
+                                        value={input.quantityAvailable}
                                     onChange={inputHandler}
                                 />
                             </div>
@@ -161,8 +164,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="number"
                                     className="form-control"
-                                    name="preparation_time"
-                                    value={input.preparation_time}
+                                        name="preparationTime"
+                                        value={input.preparationTime}
                                     onChange={inputHandler}
                                 />
                             </div>
@@ -172,8 +175,8 @@ const AddMenuitem = () => {
 
                                 <select
                                     className="form-select"
-                                    name="availability_status"
-                                    value={input.availability_status}
+                                    name="availabilityStatus"
+                                    value={input.availabilityStatus}
                                     onChange={inputHandler}
                                 >
                                     <option value="">Select Status</option>
@@ -188,8 +191,8 @@ const AddMenuitem = () => {
 
                                 <select
                                     className="form-select"
-                                    name="popularity_tag"
-                                    value={input.popularity_tag}
+                                    name="popularityTag"
+                                    value={input.popularityTag}
                                     onChange={inputHandler}
                                 >
                                     <option value="">Select Tag</option>
@@ -206,8 +209,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="image_url"
-                                    value={input.image_url}
+                                    name="itemImageUrl"
+                                    value={input.itemImageUrl}
                                     onChange={inputHandler}
                                 />
                             </div>
@@ -217,8 +220,8 @@ const AddMenuitem = () => {
                                 <input
                                     type="date"
                                     className="form-control"
-                                    name="added_date"
-                                    value={input.added_date}
+                                    name="addedDate"
+                                    value={input.addedDate}
                                     onChange={inputHandler}
                                 />
                             </div>

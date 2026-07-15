@@ -1,31 +1,31 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const NavigationBar = () => {
   return (
     <div>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-  <div className="container-fluid">
-    <a className="navbar-brand" href="#">Navbar</a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div className="navbar-nav">
-        <a className="nav-link active" aria-current="page" href="/">Home</a>
-<<<<<<< HEAD
-=======
-        <a className="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
-        <a className="nav-link active" aria-current="page" href="/add-stud">Add Students</a>
->>>>>>> 24c11a7 (Router added)
-        <a className="nav-link" href="/view-stud">View All Students</a>
-        <a className="nav-link" href="/add-item">Add Menu Items</a>
-        <a className="nav-link" href="/view-item">View Menu Items</a>
-        <a className="nav-link" href="/add-offer">Add Offer</a>
-        <a className="nav-link" href="/view-offer">View Offer</a>
-      </div>
-    </div>
-  </div>
-</nav>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            Cafeteria
+          </Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
+              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" to="/dashboard">Dashboard</Link>
+              <Link className="nav-link" to="/students-add">Add Students</Link>
+              <Link className="nav-link" to="/students-view">View All Students</Link>
+              <Link className="nav-link" to="/menu-add">Add Menu Items</Link>
+              <Link className="nav-link" to="/menu-view">View Menu Items</Link>
+              <Link className="nav-link" to="/offers-add">Add Offer</Link>
+              <Link className="nav-link" to="/offers-view">View Offer</Link>
+            </div>
+          </div>
+        </div>
+      </nav>
     </div>
   )
 }

@@ -9,7 +9,7 @@ const ViewMenuitems = () => {
 
     const fetchData = () => {
 
-        axios.get("http://localhost:4000/api/view-items")
+        axios.post("http://localhost:3000/menu-view")
             .then((response) => {
                 changeData(response.data)
             })
@@ -48,9 +48,9 @@ const ViewMenuitems = () => {
                             <div className="card h-100 shadow">
 
                                 <img
-                                    src={value.image_url}
+                                    src={value.itemImageUrl}
                                     className="card-img-top"
-                                    alt={value.item_name}
+                                    alt={value.itemName}
                                     style={{
                                         height: "220px",
                                         objectFit: "cover"
@@ -60,11 +60,11 @@ const ViewMenuitems = () => {
                                 <div className="card-body">
 
                                     <h5 className="card-title">
-                                        {value.item_name}
+                                        {value.itemName}
                                     </h5>
 
                                     <p className="card-text">
-                                        <strong>Item ID:</strong> {value.item_id}
+                                        <strong>Item ID:</strong> {value.itemId}
                                     </p>
 
                                     <p className="card-text">
@@ -80,27 +80,27 @@ const ViewMenuitems = () => {
                                     </p>
 
                                     <p className="card-text">
-                                        <strong>Stock:</strong> {value.stock_quantity}
+                                        <strong>Stock:</strong> {value.quantityAvailable}
                                     </p>
 
                                     <p className="card-text">
-                                        <strong>Preparation Time:</strong> {value.preparation_time} mins
+                                        <strong>Preparation Time:</strong> {value.preparationTime} mins
                                     </p>
 
                                     <p className="card-text">
-                                        <strong>Status:</strong> {value.availability_status}
+                                        <strong>Status:</strong> {value.availabilityStatus}
                                     </p>
 
                                     <p className="card-text">
-                                        <strong>Added Date:</strong> {value.added_date}
+                                        <strong>Added Date:</strong> {value.addedDate}
                                     </p>
 
                                     <p className="card-text">
-                                        <strong>Popularity:</strong> {value.popularity_tag}
+                                        <strong>Popularity:</strong> {value.popularityTag}
                                     </p>
 
                                     <a
-                                        href={value.image_url}
+                                        href={value.itemImageUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn btn-success w-100"

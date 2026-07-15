@@ -7,7 +7,7 @@ const ViewAllStudents = () => {
   const [data, changeData] = useState([])
 
   const fetchData = () => {
-    axios.get("http://localhost:5000/view-student")
+    axios.post("http://localhost:3000/students-view")
       .then((response) => {
         changeData(response.data)
       })

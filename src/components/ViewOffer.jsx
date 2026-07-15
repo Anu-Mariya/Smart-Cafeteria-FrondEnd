@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import NavBar from "./NavBar";
+import NavigationBar from "./NavigationBar";
 
 const ViewOffer = () => {
   const [offers, setOffers] = useState([]);
@@ -24,6 +24,8 @@ const ViewOffer = () => {
   return (
     <div>
       {/* <NavBar /> */}
+
+      <NavigationBar />
 
       <div className="container mt-4">
         <h2 className="text-center mb-4">View Offers</h2>
