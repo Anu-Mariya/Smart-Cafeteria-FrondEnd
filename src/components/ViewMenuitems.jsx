@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-// import Navbar from './Navbar'
+import NavigationBar from './NavigationBar'
+
 
 const ViewMenuitems = () => {
 
@@ -24,6 +25,8 @@ const ViewMenuitems = () => {
 
     return (
         <div>
+
+            <NavigationBar />
 
             {/* <Navbar /> */}
 

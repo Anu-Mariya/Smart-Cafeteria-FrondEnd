@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import NavigationBar from "./NavigationBar";
 
 
 const ViewAllStudents = () => {
@@ -22,6 +23,7 @@ const ViewAllStudents = () => {
 
   return (
     <div>
+        <NavigationBar />
       <h2><center>View All Students</center></h2>
       <div className="container mt-4">
         <div className="row g-4">
