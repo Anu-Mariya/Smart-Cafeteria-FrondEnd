@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-// import Navbar from './Navbar'
-// import axios from 'axios'
+
+import axios from 'axios'
+import NavigationBar from './NavigationBar'
 
 const AddMenuitem = () => {
 
@@ -68,7 +69,7 @@ const AddMenuitem = () => {
     return (
         <div>
 
-            
+            <NavigationBar />
 
             <div className="container mt-4">
 
